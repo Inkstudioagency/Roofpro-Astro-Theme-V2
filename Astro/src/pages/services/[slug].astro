@@ -1,0 +1,220 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getServices, getService } from "../../lib/strapi.js";
+
+export async function getStaticPaths() {
+  const services = await getServices();
+  return services.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const s = await getService(Astro.params.slug);
+
+// Breadcrumb hero background = Service Main Image (CMS). The .breadcrumb-bg-overlay
+// element darkens it for legibility, so only the image is set here.
+const bannerStyle = s.serviceMainImage
+  ? `background-image: url('${s.serviceMainImage}'); background-size: cover; background-position: 50%;`
+  : undefined;
+
+const overviewImages = [s.overviewImage1, s.overviewImage2, s.overviewImage3, s.overviewImage4]
+  .map((u, i) => ({ url: (u || "").trim(), n: i + 1 }))
+  .filter((o) => o.url);
+
+const offerPoints = [];
+for (let i = 1; i <= 9; i++) {
+  const text = (s[`whatOfferPoint${i}`] || "").trim();
+  if (!text) continue;
+  offerPoints.push({ text, icon: (s[`whatOfferPointIcon${i}`] || "").trim(), small: [5, 8, 9].includes(i) });
+}
+
+const benefits = [];
+for (let i = 1; i <= 6; i++) {
+  const text = (s[`keyBenefitPoint${i}`] || "").trim();
+  if (text) benefits.push(text);
+}
+---
+<Layout title={`${s.serviceTitle} || Roofing Services Website Template`} description={s.serviceDescription} wfPage="detail_services">
+  <Header current="services" />
+  <main class="main-wrapper">
+    <section class="section_breadcrumb service-details is-2" style={bannerStyle}>
+      <div class="section-gap is-relative">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="breadcrumb-wrapper">
+            <div class="breadcrumb-link-block">
+              <a href="/services" class="link-button text-color-white w-inline-block">
+                <div class="link-button-icon w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 5L5 12L12 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                <div class="button-text">Back to Services</div>
+              </a>
+            </div>
+            <div class="breadcrumb-content-block is-3">
+              <div class="breadcrumb-heading-block">
+                <div class="breadcrumb-subtitle-block">
+                  <div class="breadcrumb-subtitle">Service Details</div>
+                </div>
+                <div class="breadcrumb-title-block">
+                  <h1 class="heading-style-2 text-color-white">{s.serviceTitle}</h1>
+                </div>
+              </div>
+              <div class="breadcrumb-summary-block max-width-640">
+                <p class="paragraph-small text-color-white">{s.serviceDescription}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="breadcrumb-bg-overlay"></div>
+    </section>
+    <section class="section_overview">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="overview-wrapper">
+            <div class="overview-content-block">
+              <div class="section-title-block">
+                <h2 class="heading-style-2">Overview</h2>
+              </div>
+              <div class="section-summary-block top-space-lg">
+                <p class="paragraph-small">{s.serviceOverview}</p>
+              </div>
+            </div>
+            <div class="overview-image-block is-2">
+              {overviewImages.map((img) => (
+                <div class={`overview-image-single-block is-${img.n}`}><img src={img.url} loading="lazy" alt="service-overview-image" class="service-overview-image" /></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_what-offer">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="what-offer-wrapper">
+            <div class="section-heading-block bottom-space-between mobile-vflex">
+              <div class="section-title-block max-width-210 mobile-fluid">
+                <h2 class="heading-style-2">What <span class="heading-style-2-ht">We Offer</span></h2>
+              </div>
+              <div class="section-summary-block max-width-500 tab-top-space">
+                <p class="paragraph-small">{s.whatOfferSectionSummary}</p>
+              </div>
+            </div>
+            <div class="what-offer-content-block">
+              <div class="what-offer-content-inner">
+                {offerPoints.map((p) => (
+                  <div class="what-offer-point-block">
+                    <div class="what-offer-point-icon-block"><img src={p.icon} loading="lazy" alt="what-offer-point-icon" class="what-offer-point-icon" /></div>
+                    <div class={p.small ? "what-offer-point-text-block small" : "what-offer-point-text-block"}>
+                      <div class="label-medium">{p.text}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_key-benefit">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="key-benefit-wrapper">
+            <div class="section-heading-block bottom-space-between bottom-space">
+              <div class="section-title-block max-width-210">
+                <h2 class="heading-style-2 text-color-white">Key <span class="heading-style-2-wht">Benefits</span></h2>
+              </div>
+              <div class="section-summary-block max-width-400">
+                <p class="paragraph-small text-color-white _80">{s.keyBenefitSummary}</p>
+              </div>
+            </div>
+            <div class="key-benefit-content-block">
+              {benefits.map((text) => (
+                <div class="key-benefit-point-block">
+                  <div class="key-benefit-icon-block"><img src="/images/Key-Benefit-Icon.svg" loading="lazy" alt="key-benefit-icon" class="key-benefit-icon" /></div>
+                  <div class="key-benefit-text-block">
+                    <div class="paragraph-small text-color-white">{text}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="section_process" class="section_process">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="process-wrapper">
+            <div class="section-heading-block bottom-space-between">
+              <div class="section-title-block max-width-430">
+                <h2 class="heading-style-2">Our Roofing <span class="heading-style-2-ht">Process</span></h2>
+              </div>
+              <div class="section-summary-block max-width-300">
+                <p class="paragraph-small">A streamlined, transparent process designed for your peace of mind</p>
+              </div>
+            </div>
+            <div class="process-content-block is-desktop">
+              <div class="process-card-block image">
+                <div class="process-card-image-block"><img loading="lazy" src="/images/process-card-image.jpg" alt="process-card-image" class="process-card-image" /></div>
+              </div>
+              {[
+                ["/images/Icon.svg", "Step 1", "Initial Consultation"],
+                ["/images/Icon-1.svg", "Step 2", "Free Inspection"],
+                ["/images/Icon-2.svg", "Step 3", "Detailed Quote"],
+                ["/images/Icon-3.svg", "Step 4", "Professional Installation"],
+                ["/images/Icon-4.svg", "Step 5", "Quality Assurance"],
+              ].map(([icon, step, title]) => (
+                <div class="process-card-block is-1">
+                  <div class="process-card-content-block is-1">
+                    <div class="process-card-top-block">
+                      <div class="process-card-icon-block"><img loading="lazy" src={icon} alt="process-card-icon" class="process-card-icon" /></div>
+                      <div class="label-medium">{step}</div>
+                    </div>
+                    <div class="process-card-bottom-block">
+                      <div class="label-large">{title}</div>
+                      <p class="paragraph-small">Contact us for a free consultation. We discuss your needs, timeline, and budget.</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_cta-two">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="cta-two-wrapper">
+            <div class="cta-two-content-block">
+              <div class="cta-title-block max-width-380 mobile-full">
+                <h2 class="heading-style-2 text-color-white">Ready to Get <span class="heading-style-2-wht">Started?</span></h2>
+              </div>
+              <div class="cta-summary-block">
+                <p class="paragraph-small text-color-white _80">Contact us today for a free consultation and quote for your roofing project.</p>
+              </div>
+            </div>
+            <div class="cta-two-button-block">
+              <a href="/contact" class="white-button is-2 w-inline-block">
+                <div class="button-text-block varient-3">
+                  <div class="button-text is-1 varient-4">Get Free Inspection</div>
+                  <div class="button-text is-2 varient-5">Get Free Inspection</div>
+                </div>
+              </a>
+              <a data-wf--secondary-button--variant="varient-2" href="tel:+(555)1234-5678" class="secondary-button w-variant-85a64691-fa29-aa50-59ed-622e1687be9b w-inline-block">
+                <div class="button-text-block">
+                  <div class="button-text is-1">Call Now</div>
+                  <div class="button-text is-2">Call Now</div>
+                </div>
+                <div class="button-icon-block">
+                  <div class="button-icon is-1 w-embed"><svg width="22" height="22" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4113_220)"><path d="M17 6.99951L7 16.9995" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 6.99951H17V15.9995" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="clip0_4113_220"><rect width="24" height="24" fill="currentColor" transform="matrix(-1 0 0 1 24 0)"></rect></clippath></defs></svg></div>
+                  <div class="button-icon is-2 w-embed"><svg width="22" height="22" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4113_220)"><path d="M17 6.99951L7 16.9995" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 6.99951H17V15.9995" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="clip0_4113_220"><rect width="24" height="24" fill="currentColor" transform="matrix(-1 0 0 1 24 0)"></rect></clippath></defs></svg></div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

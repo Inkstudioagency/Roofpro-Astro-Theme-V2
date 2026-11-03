@@ -1,0 +1,24 @@
+---
+// A single portfolio card (our-work-item-block), extracted from the RoofPro
+// Webflow export. Links to the project detail page at /our-works/[slug].
+const { work: w } = Astro.props;
+const href = `/our-works/${w.slug}`;
+---
+<div class="our-work-item-block">
+  <a href={href} class="our-work-item-image-block w-inline-block"><img src={w.workCardThumbnail} loading="lazy" alt="our-work-item-thumbnail" class="our-work-item-thumbnail" /></a>
+  <div class="our-work-item-content-block">
+    <div class="our-work-item-text-block">
+      <div class="our-work-item-tag">{w.projectTag}</div>
+      <a aria-label="our-work-item-title-block" href={href} class="our-work-item-title-block w-inline-block">
+        <h3 class="label-xlarge hover">{w.workCardTitle}</h3>
+      </a>
+      <p>{w.workCardDescription}</p>
+    </div>
+    <div class="our-work-item-button-block">
+      <a href={href} class="link-button w-inline-block">
+        <div class="button-text lg">Read More</div>
+        <div class="link-button-icon w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+      </a>
+    </div>
+  </div>
+</div>

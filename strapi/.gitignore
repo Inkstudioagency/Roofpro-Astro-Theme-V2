@@ -1,0 +1,38 @@
+############################
+# OS / Editor
+############################
+.DS_Store
+Thumbs.db
+*.swp
+
+############################
+# Node / build
+############################
+node_modules/
+dist/
+build/
+.cache/
+.strapi/
+.strapi-updater.json
+
+############################
+# Strapi runtime data
+############################
+.tmp/
+exports/
+*.cache
+
+############################
+# Secrets & env
+############################
+.env
+.env.*
+!.env.example
+
+############################
+# Logs
+############################
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

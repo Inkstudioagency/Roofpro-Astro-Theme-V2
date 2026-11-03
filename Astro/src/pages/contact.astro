@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import body from "../_html/contact.body.html?raw";
+---
+<Layout title="Contact || Roofing Services Website Template" wfPage="contact">
+  <Header current="contact" />
+  <Fragment set:html={body} />
+  <Footer />
+</Layout>

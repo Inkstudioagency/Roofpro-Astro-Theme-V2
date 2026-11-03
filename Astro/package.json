@@ -1,0 +1,20 @@
+{
+  "name": "roofpro",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "RoofPro — a roofing / construction business theme for Astro, converted from the Webflow export. Optional Strapi CMS for Services & Works.",
+  "keywords": ["astro", "astro-theme", "roofing", "construction", "business", "webflow"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.0.9"
+  }
+}

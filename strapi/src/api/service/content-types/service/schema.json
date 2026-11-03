@@ -1,0 +1,160 @@
+{
+  "kind": "collectionType",
+  "collectionName": "services",
+  "info": {
+    "singularName": "service",
+    "pluralName": "services",
+    "displayName": "Service",
+    "description": "Roofing services (imported from cms/services.csv)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "serviceTitle": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "serviceTitle",
+      "required": true
+    },
+    "collectionId": {
+      "type": "string"
+    },
+    "localeId": {
+      "type": "string"
+    },
+    "itemId": {
+      "type": "string"
+    },
+    "archived": {
+      "type": "string"
+    },
+    "draft": {
+      "type": "string"
+    },
+    "createdOn": {
+      "type": "string"
+    },
+    "updatedOn": {
+      "type": "string"
+    },
+    "publishedOn": {
+      "type": "string"
+    },
+    "serviceDescription": {
+      "type": "text"
+    },
+    "serviceItemIcon": {
+      "type": "text"
+    },
+    "serviceThumbnail1": {
+      "type": "text"
+    },
+    "serviceHoverIcon": {
+      "type": "text"
+    },
+    "serviceThumbnail2": {
+      "type": "text"
+    },
+    "serviceMainImage": {
+      "type": "text"
+    },
+    "serviceOverview": {
+      "type": "text"
+    },
+    "overviewImage1": {
+      "type": "text"
+    },
+    "overviewImage2": {
+      "type": "text"
+    },
+    "overviewImage3": {
+      "type": "text"
+    },
+    "overviewImage4": {
+      "type": "text"
+    },
+    "whatOfferSectionSummary": {
+      "type": "text"
+    },
+    "whatOfferPoint1": {
+      "type": "string"
+    },
+    "whatOfferPointIcon1": {
+      "type": "text"
+    },
+    "whatOfferPoint2": {
+      "type": "string"
+    },
+    "whatOfferPointIcon2": {
+      "type": "text"
+    },
+    "whatOfferPoint3": {
+      "type": "string"
+    },
+    "whatOfferPointIcon3": {
+      "type": "text"
+    },
+    "whatOfferPoint4": {
+      "type": "string"
+    },
+    "whatOfferPointIcon4": {
+      "type": "text"
+    },
+    "whatOfferPoint5": {
+      "type": "string"
+    },
+    "whatOfferPointIcon5": {
+      "type": "text"
+    },
+    "whatOfferPoint6": {
+      "type": "string"
+    },
+    "whatOfferPointIcon6": {
+      "type": "text"
+    },
+    "whatOfferPoint7": {
+      "type": "string"
+    },
+    "whatOfferPointIcon7": {
+      "type": "text"
+    },
+    "whatOfferPoint8": {
+      "type": "string"
+    },
+    "whatOfferPointIcon8": {
+      "type": "text"
+    },
+    "whatOfferPoint9": {
+      "type": "string"
+    },
+    "whatOfferPointIcon9": {
+      "type": "text"
+    },
+    "keyBenefitSummary": {
+      "type": "text"
+    },
+    "keyBenefitPoint1": {
+      "type": "string"
+    },
+    "keyBenefitPoint2": {
+      "type": "string"
+    },
+    "keyBenefitPoint3": {
+      "type": "string"
+    },
+    "keyBenefitPoint4": {
+      "type": "string"
+    },
+    "keyBenefitPoint5": {
+      "type": "string"
+    },
+    "keyBenefitPoint6": {
+      "type": "string"
+    }
+  }
+}

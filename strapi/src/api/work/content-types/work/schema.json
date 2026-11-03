@@ -1,0 +1,127 @@
+{
+  "kind": "collectionType",
+  "collectionName": "works",
+  "info": {
+    "singularName": "work",
+    "pluralName": "works",
+    "displayName": "Work",
+    "description": "Projects / case studies (imported from cms/works.csv)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "workCardTitle": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "workCardTitle",
+      "required": true
+    },
+    "collectionId": {
+      "type": "string"
+    },
+    "localeId": {
+      "type": "string"
+    },
+    "itemId": {
+      "type": "string"
+    },
+    "archived": {
+      "type": "string"
+    },
+    "draft": {
+      "type": "string"
+    },
+    "createdOn": {
+      "type": "string"
+    },
+    "updatedOn": {
+      "type": "string"
+    },
+    "publishedOn": {
+      "type": "string"
+    },
+    "workCardDescription": {
+      "type": "text"
+    },
+    "workCardThumbnail": {
+      "type": "text"
+    },
+    "projectLocation": {
+      "type": "string"
+    },
+    "projectDate": {
+      "type": "string"
+    },
+    "projectClient": {
+      "type": "string"
+    },
+    "workDetailsTitle": {
+      "type": "text"
+    },
+    "workDetailsDescription": {
+      "type": "text"
+    },
+    "projectMainImage": {
+      "type": "text"
+    },
+    "projectTag": {
+      "type": "string"
+    },
+    "projectDetailsText": {
+      "type": "richtext"
+    },
+    "projectDetailsTagOne": {
+      "type": "string"
+    },
+    "projectDetailsTagTwo": {
+      "type": "string"
+    },
+    "projectDetailsTagThree": {
+      "type": "string"
+    },
+    "projectDetailsTagFour": {
+      "type": "string"
+    },
+    "projectDetailsSummary": {
+      "type": "text"
+    },
+    "projectDuration": {
+      "type": "string"
+    },
+    "roofArea": {
+      "type": "string"
+    },
+    "energySavings": {
+      "type": "string"
+    },
+    "warranty": {
+      "type": "string"
+    },
+    "projectFeatureOne": {
+      "type": "string"
+    },
+    "projectFeatureTwo": {
+      "type": "string"
+    },
+    "projectFeatureThree": {
+      "type": "string"
+    },
+    "projectFeatureFour": {
+      "type": "string"
+    },
+    "projectFeatureFive": {
+      "type": "string"
+    },
+    "projectFeatureSix": {
+      "type": "string"
+    },
+    "projectFeatureSeven": {
+      "type": "string"
+    }
+  }
+}

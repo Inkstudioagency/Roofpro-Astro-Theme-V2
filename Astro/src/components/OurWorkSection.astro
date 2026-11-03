@@ -1,0 +1,75 @@
+---
+// The section_our-work portfolio block, shared by the Home page and the
+// Our Work page so both render identically. Desktop layout: row 1 = 2 columns
+// (.our-work-collection-list), row 2 = 3 columns (.our-work-collection-list.is-2);
+// mobile = a Webflow slider. Markup matches the RoofPro export exactly.
+import WorkCard from "./WorkCard.astro";
+
+const { works = [] } = Astro.props;
+const row1 = works.slice(0, 2); // 2 columns
+const row2 = works.slice(2, 5); // 3 columns
+---
+<section class="section_our-work">
+  <div class="section-gap">
+    <div class="w-layout-blockcontainer container-main w-container">
+      <div class="our-work-wrapper">
+        <div class="section-heading-block bottom-space-between">
+          <div class="section-title-block max-width-300">
+            <h2 class="heading-style-2">Our Work <span class="heading-style-2-ht">Showcase</span></h2>
+          </div>
+          <div class="section-summary-block max-width-400">
+            <p class="paragraph-small">Browse our portfolio of completed roofing projects across Brisbane</p>
+          </div>
+        </div>
+        <div class="our-work-content-block is-desktop">
+          {row1.length > 0 && (
+            <div class="our-work-collection-block w-dyn-list">
+              <div role="list" class="our-work-collection-list w-dyn-items">
+                {row1.map((w) => (
+                  <div role="listitem" class="our-work-collection-item w-dyn-item">
+                    <WorkCard work={w} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {row2.length > 0 && (
+            <div class="our-work-collection-block top-gap w-dyn-list">
+              <div role="list" class="our-work-collection-list is-2 w-dyn-items">
+                {row2.map((w) => (
+                  <div role="listitem" class="our-work-collection-item w-dyn-item">
+                    <WorkCard work={w} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        <div class="our-work-content-block is-mobile">
+          <div data-delay="4000" data-animation="slide" class="our-work-slider-block w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+            <div class="our-work-slider-mask w-slider-mask">
+              {works.map((w) => (
+                <div class="our-work-slide-block w-slide">
+                  <div class="our-work-collection-block w-dyn-list">
+                    <div role="list" class="our-work-collection-list w-dyn-items">
+                      <div role="listitem" class="our-work-collection-item w-dyn-item">
+                        <WorkCard work={w} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div class="our-work-slider-arrow left w-slider-arrow-left">
+              <div class="w-icon-slider-left"></div>
+            </div>
+            <div class="our-work-slider-arrow right w-slider-arrow-right">
+              <div class="w-icon-slider-right"></div>
+            </div>
+            <div class="display-none w-slider-nav w-round w-num"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

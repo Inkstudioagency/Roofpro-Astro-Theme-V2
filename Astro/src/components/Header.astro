@@ -1,0 +1,34 @@
+---
+// Shared site header (RoofPro navbar), extracted verbatim from the Webflow
+// export. The active-nav state is re-applied here based on the `current` prop.
+import headerRaw from "../_html/header.html?raw";
+
+const { current = "home" } = Astro.props;
+
+const routeFor = {
+  home: "/",
+  about: "/about",
+  services: "/services",
+  "our-work": "/our-work",
+  contact: "/contact",
+};
+
+let html = headerRaw
+  .replaceAll(' aria-current="page"', "")
+  .replaceAll(" w--current", "");
+
+const href = routeFor[current];
+if (href) {
+  // desktop nav-link
+  html = html.replaceAll(
+    `<a href="${href}" class="nav-link w-nav-link">`,
+    `<a href="${href}" aria-current="page" class="nav-link w-nav-link w--current">`
+  );
+  // mobile dropdown link
+  html = html.replaceAll(
+    `<a href="${href}" class="nav-dropdown-link`,
+    `<a href="${href}" aria-current="page" class="nav-dropdown-link w--current`
+  );
+}
+---
+<Fragment set:html={html} />

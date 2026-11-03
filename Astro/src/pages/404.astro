@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import body from "../_html/404.body.html?raw";
+---
+<Layout title="Not Found || Roofing Services Website Template" wfPage="404">
+  <Header current="" />
+  <Fragment set:html={body} />
+  <Footer />
+</Layout>

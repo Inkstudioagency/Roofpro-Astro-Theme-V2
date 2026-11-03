@@ -1,0 +1,95 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ServiceCards from "../components/ServiceCards.astro";
+import { getServices } from "../lib/strapi.js";
+
+const services = await getServices();
+---
+<Layout title="Service || Roofing Services Website Template" wfPage="service">
+  <Header current="services" />
+  <main class="main-wrapper">
+    <section class="section_breadcrumb service">
+      <div class="section-gap hero">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="breadcrumb-wrapper">
+            <div class="breadcrumb-link-block">
+              <a href="/" class="link-button text-color-white w-inline-block">
+                <div class="link-button-icon w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 5L5 12L12 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                <div class="button-text">Back to Home</div>
+              </a>
+            </div>
+            <div class="breadcrumb-content-block is-2">
+              <div class="breadcrumb-heading-block">
+                <div class="breadcrumb-subtitle-block">
+                  <div class="breadcrumb-subtitle">Services</div>
+                </div>
+                <div class="breadcrumb-title-block">
+                  <h1 class="heading-style-2 text-color-white">Construction Services</h1>
+                </div>
+              </div>
+              <div class="breadcrumb-summary-block max-width-300">
+                <p class="paragraph-small text-color-white">Professional roofing solutions for every type of building</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section data-wf--section-service--variant="varient-2" class="section_service">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="service-wrapper">
+            <div class="service-heading-block w-variant-bef86ebe-9600-84f4-145a-6fa2ff96dcc4">
+              <div class="section-title-block">
+                <h2 class="heading-style-2">Construction <span class="heading-style-2-ht">Services</span></h2>
+              </div>
+              <div class="section-summary-block top-space-lg mobile-sm">
+                <p class="paragraph-small">Professional roofing solutions for every type of building</p>
+              </div>
+            </div>
+            <div data-w-id="40031a16-0ef6-ea08-1a16-c5b8c6ec1c26" class="service-content-block w-variant-bef86ebe-9600-84f4-145a-6fa2ff96dcc4">
+              <ServiceCards services={services} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_cta-two">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="cta-two-wrapper">
+            <div class="cta-two-content-block">
+              <div class="cta-title-block max-width-380 mobile-full">
+                <h2 class="heading-style-2 text-color-white">Ready to Get <span class="heading-style-2-wht">Started?</span></h2>
+              </div>
+              <div class="cta-summary-block">
+                <p class="paragraph-small text-color-white _80">Contact us today for a free consultation and quote for your roofing project.</p>
+              </div>
+            </div>
+            <div class="cta-two-button-block">
+              <a href="/contact" class="white-button is-2 w-inline-block">
+                <div class="button-text-block varient-3">
+                  <div class="button-text is-1 varient-4">Get Free Inspection</div>
+                  <div class="button-text is-2 varient-5">Get Free Inspection</div>
+                </div>
+              </a>
+              <a data-wf--secondary-button--variant="varient-2" href="tel:+(555)1234-5678" class="secondary-button w-variant-85a64691-fa29-aa50-59ed-622e1687be9b w-inline-block">
+                <div class="button-text-block">
+                  <div class="button-text is-1">Call Now</div>
+                  <div class="button-text is-2">Call Now</div>
+                </div>
+                <div class="button-icon-block">
+                  <div class="button-icon is-1 w-embed"><svg width="22" height="22" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4113_220)"><path d="M17 6.99951L7 16.9995" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 6.99951H17V15.9995" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="clip0_4113_220"><rect width="24" height="24" fill="currentColor" transform="matrix(-1 0 0 1 24 0)"></rect></clippath></defs></svg></div>
+                  <div class="button-icon is-2 w-embed"><svg width="22" height="22" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4113_220)"><path d="M17 6.99951L7 16.9995" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 6.99951H17V15.9995" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="clip0_4113_220"><rect width="24" height="24" fill="currentColor" transform="matrix(-1 0 0 1 24 0)"></rect></clippath></defs></svg></div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

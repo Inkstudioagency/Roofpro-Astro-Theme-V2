@@ -1,0 +1,529 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ServiceCards from "../components/ServiceCards.astro";
+import OurWorkSection from "../components/OurWorkSection.astro";
+import body from "../_html/index.body.html?raw";
+import { getServices, getWorks } from "../lib/strapi.js";
+
+const services = await getServices();
+const works = await getWorks();
+
+// The home page is the raw Webflow body, but its two CMS collection sections
+// (Services + Works) exported empty. Split the raw HTML around them and render
+// those two sections from live data instead.
+const SVC_OPEN = '<section data-wf--section-service--variant="base" class="section_service">';
+const ABOUT_OPEN = '<section class="section_about">';
+const WORK_OPEN = '<section class="section_our-work">';
+const TESTI_OPEN = '<section class="section_testimonial">';
+
+const iSvc = body.indexOf(SVC_OPEN);
+const iAbout = body.indexOf(ABOUT_OPEN);
+const iWork = body.indexOf(WORK_OPEN);
+const iTesti = body.indexOf(TESTI_OPEN);
+
+const pre = body.slice(0, iSvc);      // <main> + hero + logo
+const mid = body.slice(iAbout, iWork); // about … why-choose
+const post = body.slice(iTesti);      // testimonial … cta + </main>
+---
+<Layout title="RoofPro - Roofing Services Website Template" wfPage="index">
+  <Header current="home" />
+  <Fragment set:html={pre} />
+
+  <section data-wf--section-service--variant="base" class="section_service">
+    <div class="section-gap">
+      <div class="w-layout-blockcontainer container-main w-container">
+        <div class="service-wrapper">
+          <div class="service-heading-block">
+            <div class="section-title-block">
+              <h2 class="heading-style-2">Construction <span class="heading-style-2-ht">Services</span></h2>
+            </div>
+            <div class="section-summary-block top-space-lg mobile-sm">
+              <p class="paragraph-small">Professional roofing solutions for every type of building</p>
+            </div>
+          </div>
+          <div data-w-id="40031a16-0ef6-ea08-1a16-c5b8c6ec1c26" class="service-content-block">
+            <ServiceCards services={services} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section_materials">
+    <div class="section-gap">
+      <div class="w-layout-blockcontainer container-main w-container">
+        <div class="materials-wrapper">
+          <div class="section-heading-block bottom-space-between">
+            <div class="section-title-block max-width-300">
+              <h2 class="heading-style-2">Roofing <span class="heading-style-2-ht">Materials</span></h2>
+            </div>
+            <div class="section-summary-block max-width-500">
+              <p class="paragraph-small">Compare systems and pick the roof that fits your home, budget, and climate</p>
+            </div>
+          </div>
+          <div class="materials-content-block">
+            <div class="materials-tab-list" role="tablist">
+              <button type="button" class="materials-tab is-active" data-material="asphalt" role="tab" aria-selected="true">Asphalt Shingles</button>
+              <button type="button" class="materials-tab" data-material="metal" role="tab" aria-selected="false">Metal Roofing</button>
+              <button type="button" class="materials-tab" data-material="tile" role="tab" aria-selected="false">Tile</button>
+              <button type="button" class="materials-tab" data-material="flat" role="tab" aria-selected="false">Flat &amp; TPO</button>
+            </div>
+            <div class="materials-panel-block">
+              <div class="materials-panel is-active" data-panel="asphalt">
+                <img src="/images/6a5717b9f45479999f4faad3_work-main-image-1.jpg" loading="lazy" alt="asphalt-shingle-roof" class="materials-panel-image">
+                <div class="materials-panel-content">
+                  <h3 class="label-xlarge">Asphalt Shingles</h3>
+                  <p class="paragraph-xsmall">Our most popular system — a reliable, budget-friendly roof backed by a manufacturer warranty.</p>
+                  <div class="materials-spec-row"><span>Lifespan</span><span>20–30 years</span></div>
+                  <div class="materials-spec-row"><span>Avg. cost</span><span>$</span></div>
+                  <div class="materials-spec-row"><span>Best for</span><span>Most homes, fast install</span></div>
+                </div>
+              </div>
+              <div class="materials-panel" data-panel="metal">
+                <img src="/images/6a5717b9f45479999f4faad1_work-main-image-2.jpg" loading="lazy" alt="metal-roof" class="materials-panel-image">
+                <div class="materials-panel-content">
+                  <h3 class="label-xlarge">Metal Roofing</h3>
+                  <p class="paragraph-xsmall">Lightweight, fire-resistant panels that shed snow and rain and hold up to severe weather.</p>
+                  <div class="materials-spec-row"><span>Lifespan</span><span>40–70 years</span></div>
+                  <div class="materials-spec-row"><span>Avg. cost</span><span>$$$</span></div>
+                  <div class="materials-spec-row"><span>Best for</span><span>Storm-prone, energy savings</span></div>
+                </div>
+              </div>
+              <div class="materials-panel" data-panel="tile">
+                <img src="/images/6a5717b9f45479999f4faacf_work-main-image-3.jpg" loading="lazy" alt="tile-roof" class="materials-panel-image">
+                <div class="materials-panel-content">
+                  <h3 class="label-xlarge">Tile</h3>
+                  <p class="paragraph-xsmall">Clay or concrete tile built to last generations, with the classic profile buyers love.</p>
+                  <div class="materials-spec-row"><span>Lifespan</span><span>50+ years</span></div>
+                  <div class="materials-spec-row"><span>Avg. cost</span><span>$$$$</span></div>
+                  <div class="materials-spec-row"><span>Best for</span><span>Hot climates, resale value</span></div>
+                </div>
+              </div>
+              <div class="materials-panel" data-panel="flat">
+                <img src="/images/6a5717b9f45479999f4faaa8_work-main-image-4.jpg" loading="lazy" alt="flat-tpo-roof" class="materials-panel-image">
+                <div class="materials-panel-content">
+                  <h3 class="label-xlarge">Flat &amp; TPO</h3>
+                  <p class="paragraph-xsmall">Seamless membrane roofing for low-slope commercial and residential additions.</p>
+                  <div class="materials-spec-row"><span>Lifespan</span><span>20–30 years</span></div>
+                  <div class="materials-spec-row"><span>Avg. cost</span><span>$$</span></div>
+                  <div class="materials-spec-row"><span>Best for</span><span>Commercial, extensions</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script is:inline>
+    (function () {
+      var tabs = document.querySelectorAll(".materials-tab");
+      var panels = document.querySelectorAll(".materials-panel");
+      if (!tabs.length) return;
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          var target = tab.getAttribute("data-material");
+          tabs.forEach(function (t) {
+            t.classList.remove("is-active");
+            t.setAttribute("aria-selected", "false");
+          });
+          panels.forEach(function (p) { p.classList.remove("is-active"); });
+          tab.classList.add("is-active");
+          tab.setAttribute("aria-selected", "true");
+          var panel = document.querySelector('.materials-panel[data-panel="' + target + '"]');
+          if (panel) panel.classList.add("is-active");
+        });
+      });
+    })();
+  </script>
+
+  <Fragment set:html={mid} />
+  <script is:inline>
+    (function () {
+      var cards = document.querySelectorAll(".section_expertise .expertise-card-block");
+      if (!cards.length) return;
+
+      function setOpen(card, open, immediate) {
+        var summary = card.querySelector(".expertise-card-summary-block");
+        var image = card.querySelector(".expertise-card-image-block");
+        var icon = card.querySelector(".expertise-card-icon-block");
+        card.classList.toggle("is-open", open);
+        if (icon) icon.style.opacity = open ? "0" : "1";
+        [summary, image].forEach(function (el) {
+          if (!el) return;
+          if (open) {
+            // On first paint the card's image may not have loaded yet, so
+            // scrollHeight would measure 0 and clip the image permanently.
+            // Use "auto" for the initial open state instead of a measured
+            // px value; later toggles (after images are loaded) animate
+            // from a measured scrollHeight as normal.
+            el.style.height = immediate ? "auto" : el.scrollHeight + "px";
+          } else {
+            el.style.height = "0px";
+          }
+        });
+      }
+
+      cards.forEach(function (card, i) {
+        setOpen(card, i === 0, true);
+        card.addEventListener("click", function (e) {
+          if (card.classList.contains("is-open")) return;
+          cards.forEach(function (c) { setOpen(c, c === card, false); });
+        });
+      });
+
+      window.addEventListener("resize", function () {
+        cards.forEach(function (card) {
+          if (card.classList.contains("is-open")) setOpen(card, true);
+        });
+      });
+    })();
+  </script>
+
+  <section class="section_gallery">
+    <div class="section-gap">
+      <div class="w-layout-blockcontainer container-main w-container">
+        <div class="gallery-wrapper">
+          <div class="section-heading-block bottom-space-between">
+            <div class="section-title-block max-width-300">
+              <h2 class="heading-style-2">Before <span class="heading-style-2-ht">&amp; After</span></h2>
+            </div>
+            <div class="section-summary-block max-width-500">
+              <p class="paragraph-small">Drag the divider to see the transformation on a real RoofPro project</p>
+            </div>
+          </div>
+          <div class="gallery-content-block is-draggable">
+            <div id="w-node-_7b3a5e30-092b-374a-1352-39cccb44a4b4-9f4fa9de" class="gallery-card-block" data-ba>
+              <div class="gallery-before-block">
+                <img src="/images/after-image-1.jpg" loading="lazy" alt="gallery-before-image" class="gallery-before-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">Before</div>
+                </div>
+              </div>
+              <div class="gallery-after-block" data-ba-after>
+                <img src="/images/before-image-1.jpg" loading="lazy" alt="gallery-after-image" class="gallery-after-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">After</div>
+                </div>
+              </div>
+              <div class="gallery-drag-handle" data-ba-handle>
+                <div class="gallery-drag-grip">
+                  <svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3L1 8l4 5M11 3l4 5-4 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </div>
+              </div>
+              <input type="range" min="0" max="100" value="50" class="gallery-drag-range" data-ba-range aria-label="Drag to compare before and after: pipe boot repair">
+            </div>
+            <div id="w-node-ceca8f4e-59ec-e1fd-6720-e58d25be0751-9f4fa9de" class="gallery-card-block" data-ba>
+              <div class="gallery-before-block">
+                <img src="/images/before-image-2.jpg" loading="lazy" alt="gallery-before-image" class="gallery-before-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">Before</div>
+                </div>
+              </div>
+              <div class="gallery-after-block" data-ba-after>
+                <img src="/images/after-image-2.jpg" loading="lazy" alt="gallery-after-image" class="gallery-after-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">After</div>
+                </div>
+              </div>
+              <div class="gallery-drag-handle" data-ba-handle>
+                <div class="gallery-drag-grip">
+                  <svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3L1 8l4 5M11 3l4 5-4 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </div>
+              </div>
+              <input type="range" min="0" max="100" value="50" class="gallery-drag-range" data-ba-range aria-label="Drag to compare before and after: tile roof restoration">
+            </div>
+            <div id="w-node-eba90eb9-b0cc-1d46-836f-f0f4b07f72f5-9f4fa9de" class="gallery-card-block" data-ba>
+              <div class="gallery-before-block">
+                <img src="/images/before-image-3.jpg" loading="lazy" alt="gallery-before-image" class="gallery-before-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">Before</div>
+                </div>
+              </div>
+              <div class="gallery-after-block" data-ba-after>
+                <img src="/images/after-image-3.jpg" loading="lazy" alt="gallery-after-image" class="gallery-after-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">After</div>
+                </div>
+              </div>
+              <div class="gallery-drag-handle" data-ba-handle>
+                <div class="gallery-drag-grip">
+                  <svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3L1 8l4 5M11 3l4 5-4 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </div>
+              </div>
+              <input type="range" min="0" max="100" value="50" class="gallery-drag-range" data-ba-range aria-label="Drag to compare before and after: full roof replacement">
+            </div>
+            <div id="w-node-a6672851-9545-6c57-79b3-0a40ff566a3a-9f4fa9de" class="gallery-card-block" data-ba>
+              <div class="gallery-before-block">
+                <img src="/images/before-image-4.jpg" loading="lazy" alt="gallery-before-image" class="gallery-before-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">Before</div>
+                </div>
+              </div>
+              <div class="gallery-after-block" data-ba-after>
+                <img src="/images/after-image-4.jpg" loading="lazy" alt="gallery-after-image" class="gallery-after-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">After</div>
+                </div>
+              </div>
+              <div class="gallery-drag-handle" data-ba-handle>
+                <div class="gallery-drag-grip">
+                  <svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3L1 8l4 5M11 3l4 5-4 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </div>
+              </div>
+              <input type="range" min="0" max="100" value="50" class="gallery-drag-range" data-ba-range aria-label="Drag to compare before and after: architectural shingle upgrade">
+            </div>
+            <div id="w-node-bd22a6cf-1778-799a-9872-26c9ef72126f-9f4fa9de" class="gallery-card-block" data-ba>
+              <div class="gallery-before-block">
+                <img src="/images/before-image-5.jpg" loading="lazy" alt="gallery-before-image" class="gallery-before-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">Before</div>
+                </div>
+              </div>
+              <div class="gallery-after-block" data-ba-after>
+                <img src="/images/after-image-5.jpg" loading="lazy" alt="gallery-after-image" class="gallery-after-image">
+                <div class="gallery-image-content-block">
+                  <div class="gallery-image-tag">After</div>
+                </div>
+              </div>
+              <div class="gallery-drag-handle" data-ba-handle>
+                <div class="gallery-drag-grip">
+                  <svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3L1 8l4 5M11 3l4 5-4 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </div>
+              </div>
+              <input type="range" min="0" max="100" value="50" class="gallery-drag-range" data-ba-range aria-label="Drag to compare before and after: complete re-roof">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script is:inline>
+    (function () {
+      var sliders = document.querySelectorAll("[data-ba]");
+      sliders.forEach(function (slider) {
+        var range = slider.querySelector("[data-ba-range]");
+        var afterBlock = slider.querySelector("[data-ba-after]");
+        var handle = slider.querySelector("[data-ba-handle]");
+        if (!range || !afterBlock || !handle) return;
+        function update() {
+          var val = range.value;
+          afterBlock.style.clipPath = "inset(0 " + (100 - val) + "% 0 0)";
+          handle.style.left = val + "%";
+        }
+        range.addEventListener("input", update);
+        update();
+      });
+    })();
+  </script>
+
+  <OurWorkSection works={works} />
+
+  <section class="section_estimator" id="section_estimator">
+    <div class="section-gap">
+      <div class="w-layout-blockcontainer container-main w-container">
+        <div class="estimator-wrapper">
+          <div class="estimator-info-block">
+            <div class="section-title-block max-width-300">
+              <h2 class="heading-style-2 text-color-white">Instant <span class="heading-style-2-ht">Estimate</span></h2>
+            </div>
+            <p class="paragraph-small text-color-white estimator-note">Answer three quick questions and see a ballpark roofing cost before you even call us.</p>
+            <ul class="estimator-points">
+              <li>No obligation, no spam</li>
+              <li>Based on 1,200+ completed roofs</li>
+              <li>Takes under 30 seconds</li>
+            </ul>
+          </div>
+          <div class="estimator-card-block">
+            <div class="estimator-field">
+              <label class="estimator-label" for="est-type">Roof Type</label>
+              <select id="est-type" class="estimator-select">
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+              </select>
+            </div>
+            <div class="estimator-field">
+              <label class="estimator-label" for="est-size">Approx. Roof Size</label>
+              <input id="est-size" class="estimator-range" type="range" min="800" max="8000" step="100" value="2000">
+              <div class="estimator-range-value"><span id="est-size-value">2,000</span> sq ft</div>
+            </div>
+            <div class="estimator-field">
+              <label class="estimator-label" for="est-material">Material</label>
+              <select id="est-material" class="estimator-select">
+                <option value="asphalt">Asphalt Shingles</option>
+                <option value="metal">Metal</option>
+                <option value="tile">Tile</option>
+                <option value="flat">Flat / TPO</option>
+              </select>
+            </div>
+            <div class="estimator-field">
+              <label class="estimator-label" for="est-pitch">Roof Pitch</label>
+              <select id="est-pitch" class="estimator-select">
+                <option value="low">Low-Slope / Flat</option>
+                <option value="standard" selected>Standard</option>
+                <option value="steep">Steep / Complex</option>
+              </select>
+            </div>
+            <div id="est-result" class="estimator-result">
+              <p class="estimator-result-label">Estimated project cost</p>
+              <p class="estimator-result-value"><span id="est-low"></span> – <span id="est-high"></span></p>
+              <p class="estimator-result-hint" id="est-hint"></p>
+            </div>
+            <a href="/contact" id="est-cta" class="primary-button estimator-button w-inline-block">
+              <div class="button-text-block">
+                <div class="button-text is-1">Get My Free Quote</div>
+                <div class="button-text is-2">Get My Free Quote</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script is:inline>
+    (function () {
+      var sizeInput = document.getElementById("est-size");
+      var sizeValue = document.getElementById("est-size-value");
+      var typeSelect = document.getElementById("est-type");
+      var materialSelect = document.getElementById("est-material");
+      var pitchSelect = document.getElementById("est-pitch");
+      var lowEl = document.getElementById("est-low");
+      var highEl = document.getElementById("est-high");
+      var hintEl = document.getElementById("est-hint");
+      var cta = document.getElementById("est-cta");
+      if (!sizeInput || !typeSelect || !materialSelect || !pitchSelect) return;
+
+      var RATE = { asphalt: 4.5, metal: 9, tile: 11, flat: 6.5 };
+      var RATE_LABEL = { asphalt: "Asphalt Shingles", metal: "Metal", tile: "Tile", flat: "Flat / TPO" };
+      var TYPE_MULT = { residential: 1, commercial: 1.15, industrial: 1.3 };
+      var PITCH_MULT = { low: 0.95, standard: 1, steep: 1.2 };
+      var TYPE_LABEL = { residential: "Residential", commercial: "Commercial", industrial: "Industrial" };
+
+      function formatMoney(n) {
+        return "$" + Math.round(n).toLocaleString("en-US");
+      }
+
+      function recalc() {
+        var size = Number(sizeInput.value);
+        sizeValue.textContent = size.toLocaleString("en-US");
+
+        var type = typeSelect.value;
+        var material = materialSelect.value;
+        var pitch = pitchSelect.value;
+        var rate = RATE[material] || RATE.asphalt;
+        var typeMult = TYPE_MULT[type] || 1;
+        var pitchMult = PITCH_MULT[pitch] || 1;
+        var base = size * rate * typeMult * pitchMult;
+        var low = Math.round(base * 0.9);
+        var high = Math.round(base * 1.15);
+
+        lowEl.textContent = formatMoney(low);
+        highEl.textContent = formatMoney(high);
+        if (hintEl) {
+          hintEl.textContent = TYPE_LABEL[type] + " · " + RATE_LABEL[material] + " · " + size.toLocaleString("en-US") + " sq ft";
+        }
+        if (cta) {
+          cta.href = "/contact?roofType=" + encodeURIComponent(type) +
+            "&material=" + encodeURIComponent(material) +
+            "&pitch=" + encodeURIComponent(pitch) +
+            "&size=" + encodeURIComponent(size) +
+            "&estimateLow=" + low +
+            "&estimateHigh=" + high;
+        }
+      }
+
+      [sizeInput, typeSelect, materialSelect, pitchSelect].forEach(function (el) {
+        el.addEventListener("input", recalc);
+        el.addEventListener("change", recalc);
+      });
+      recalc();
+    })();
+  </script>
+
+  <section class="section_pricing">
+    <div class="section-gap">
+      <div class="w-layout-blockcontainer container-main w-container">
+        <div class="pricing-wrapper">
+          <div class="section-heading-block center-align">
+            <div class="section-title-block">
+              <h2 class="heading-style-2 text-align-center">Pricing <span class="heading-style-2-ht">Plans</span></h2>
+            </div>
+            <div class="section-summary-block max-width-500 top-space-lg">
+              <p class="paragraph-small text-align-center">Transparent starting prices — final cost depends on roof size and a free on-site inspection</p>
+            </div>
+          </div>
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <div class="pricing-name">Essential Repair</div>
+              <p class="pricing-desc">Minor leaks, storm damage spot-repair, and routine maintenance</p>
+              <div class="pricing-price-row">
+                <span class="pricing-price">$450</span>
+                <span class="pricing-price-note">starting price</span>
+              </div>
+              <ul class="pricing-features">
+                <li><span class="pricing-check"></span>Free inspection &amp; diagnosis</li>
+                <li><span class="pricing-check"></span>Leak &amp; flashing repair</li>
+                <li><span class="pricing-check"></span>Debris &amp; gutter clearing</li>
+                <li><span class="pricing-check"></span>1-year workmanship warranty</li>
+              </ul>
+              <a href="/contact" class="secondary-button pricing-cta w-inline-block">
+                <div class="button-text-block">
+                  <div class="button-text is-1">Book a Repair</div>
+                  <div class="button-text is-2">Book a Repair</div>
+                </div>
+              </a>
+            </div>
+            <div class="pricing-card is-popular">
+              <div class="pricing-badge">Most Popular</div>
+              <div class="pricing-name">Full Replacement</div>
+              <p class="pricing-desc">Complete tear-off and re-roof with your choice of premium materials</p>
+              <div class="pricing-price-row">
+                <span class="pricing-price">$8,500</span>
+                <span class="pricing-price-note">starting price</span>
+              </div>
+              <ul class="pricing-features">
+                <li><span class="pricing-check"></span>Full tear-off &amp; disposal</li>
+                <li><span class="pricing-check"></span>Asphalt, metal, or tile options</li>
+                <li><span class="pricing-check"></span>Certified installation crew</li>
+                <li><span class="pricing-check"></span>25-year material warranty</li>
+                <li><span class="pricing-check"></span>Dedicated project coordinator</li>
+              </ul>
+              <a href="/contact" class="primary-button pricing-cta w-inline-block">
+                <div class="button-text-block">
+                  <div class="button-text is-1">Get a Full Quote</div>
+                  <div class="button-text is-2">Get a Full Quote</div>
+                </div>
+              </a>
+            </div>
+            <div class="pricing-card">
+              <div class="pricing-name">Premium Protection</div>
+              <p class="pricing-desc">An ongoing maintenance plan that catches problems before they leak</p>
+              <div class="pricing-price-row">
+                <span class="pricing-price">$450</span>
+                <span class="pricing-price-note">per year</span>
+              </div>
+              <ul class="pricing-features">
+                <li><span class="pricing-check"></span>Bi-annual inspections</li>
+                <li><span class="pricing-check"></span>Priority emergency response</li>
+                <li><span class="pricing-check"></span>Gutter &amp; drainage checks</li>
+                <li><span class="pricing-check"></span>15% off any repair work</li>
+              </ul>
+              <a href="/contact" class="secondary-button pricing-cta w-inline-block">
+                <div class="button-text-block">
+                  <div class="button-text is-1">Join the Plan</div>
+                  <div class="button-text is-2">Join the Plan</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Fragment set:html={post} />
+  <Footer />
+</Layout>

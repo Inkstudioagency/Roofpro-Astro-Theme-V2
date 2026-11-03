@@ -1,0 +1,228 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getWorks, getWork } from "../../lib/strapi.js";
+
+export async function getStaticPaths() {
+  const works = await getWorks();
+  return works.map((w) => ({ params: { slug: w.slug } }));
+}
+
+const w = await getWork(Astro.params.slug);
+
+// The CMS Project Date is a raw JS date string (e.g. "Tue Sep 02 2025 …GMT…").
+// Format it into a clean, readable date for the breadcrumb info block.
+function formatDate(raw) {
+  if (!raw) return "";
+  const d = new Date(raw);
+  if (isNaN(d.getTime())) return raw;
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit", timeZone: "UTC" });
+}
+const projectDateDisplay = formatDate(w.projectDate);
+
+const tags = [w.projectDetailsTagOne, w.projectDetailsTagTwo, w.projectDetailsTagThree, w.projectDetailsTagFour]
+  .map((t) => (t || "").trim())
+  .filter(Boolean);
+
+const results = [
+  ["Project Duration", w.projectDuration],
+  ["Roof Area", w.roofArea],
+  ["Energy Savings", w.energySavings],
+  ["Warranty", w.warranty],
+];
+
+const features = [
+  w.projectFeatureOne, w.projectFeatureTwo, w.projectFeatureThree, w.projectFeatureFour,
+  w.projectFeatureFive, w.projectFeatureSix, w.projectFeatureSeven,
+].map((f) => (f || "").trim()).filter(Boolean);
+
+const heroStyle = w.projectMainImage
+  ? `background-image: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)), url('${w.projectMainImage}'); background-size: cover; background-position: 50%;`
+  : undefined;
+
+// Gallery grid placement is keyed to these Webflow node ids in the CSS:
+// the first two cards span 3 columns (row 1), the last three span 2 (row 2).
+const galleryPairs = [
+  { before: "/images/after-image-1.jpg", after: "/images/before-image-1.jpg", id: "w-node-_7b3a5e30-092b-374a-1352-39cccb44a4b4-9f4fa9de" },
+  { before: "/images/before-image-2.jpg", after: "/images/after-image-2.jpg", id: "w-node-ceca8f4e-59ec-e1fd-6720-e58d25be0751-9f4fa9de" },
+  { before: "/images/before-image-3.jpg", after: "/images/after-image-3.jpg", id: "w-node-eba90eb9-b0cc-1d46-836f-f0f4b07f72f5-9f4fa9de" },
+  { before: "/images/before-image-4.jpg", after: "/images/after-image-4.jpg", id: "w-node-a6672851-9545-6c57-79b3-0a40ff566a3a-9f4fa9de" },
+  { before: "/images/before-image-5.jpg", after: "/images/after-image-5.jpg", id: "w-node-bd22a6cf-1778-799a-9872-26c9ef72126f-9f4fa9de" },
+];
+
+const galleryArrow = `<svg width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#gc)"><path d="M22.6663 9.33398L9.33301 22.6673" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10.667 9.33398H22.667V21.334" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="gc"><rect width="32" height="32" fill="white"></rect></clippath></defs></svg>`;
+---
+<Layout title={`${w.workCardTitle} || Roofing Services Website Template`} description={w.workCardDescription} wfPage="detail_our-works">
+  <Header current="our-work" />
+  <main class="main-wrapper">
+    <section class="section_breadcrumb work" style={heroStyle}>
+      <div class="section-gap hero is-relative">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="breadcrumb-wrapper">
+            <div class="breadcrumb-link-block">
+              <a href="/our-work" class="link-button text-color-white w-inline-block">
+                <div class="link-button-icon w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 5L5 12L12 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                <div class="button-text">Back to Our Work</div>
+              </a>
+              <div class="breadcrumb-info-block">
+                <div class="breadcrumb-single-info-block">
+                  <div class="breadcrumb-info-icon w-embed"><svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.6673 8.33464C16.6673 12.4955 12.0515 16.8288 10.5015 18.1671C10.3571 18.2757 10.1813 18.3344 10.0007 18.3344C9.81999 18.3344 9.64421 18.2757 9.49982 18.1671C7.94982 16.8288 3.33398 12.4955 3.33398 8.33464C3.33398 6.56653 4.03636 4.87083 5.28661 3.62059C6.53685 2.37035 8.23254 1.66797 10.0007 1.66797C11.7688 1.66797 13.4645 2.37035 14.7147 3.62059C15.9649 4.87083 16.6673 6.56653 16.6673 8.33464Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 10.832C11.3807 10.832 12.5 9.71274 12.5 8.33203C12.5 6.95132 11.3807 5.83203 10 5.83203C8.61929 5.83203 7.5 6.95132 7.5 8.33203C7.5 9.71274 8.61929 10.832 10 10.832Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                  <div class="paragraph-small text-color-white">{w.projectLocation}</div>
+                </div>
+                <div class="breadcrumb-single-info-block">
+                  <div class="breadcrumb-info-icon w-embed"><svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.66602 1.66797V5.0013" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.334 1.66797V5.0013" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15.8333 3.33203H4.16667C3.24619 3.33203 2.5 4.07822 2.5 4.9987V16.6654C2.5 17.5858 3.24619 18.332 4.16667 18.332H15.8333C16.7538 18.332 17.5 17.5858 17.5 16.6654V4.9987C17.5 4.07822 16.7538 3.33203 15.8333 3.33203Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2.5 8.33203H17.5" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                  <div class="paragraph-small text-color-white">{projectDateDisplay}</div>
+                </div>
+                <div class="breadcrumb-single-info-block">
+                  <div class="breadcrumb-info-icon w-embed"><svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8327 17.5V15.8333C15.8327 14.9493 15.4815 14.1014 14.8564 13.4763C14.2312 12.8512 13.3834 12.5 12.4993 12.5H7.49935C6.61529 12.5 5.76745 12.8512 5.14233 13.4763C4.5172 14.1014 4.16602 14.9493 4.16602 15.8333V17.5" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9.99935 9.16667C11.8403 9.16667 13.3327 7.67428 13.3327 5.83333C13.3327 3.99238 11.8403 2.5 9.99935 2.5C8.1584 2.5 6.66602 3.99238 6.66602 5.83333C6.66602 7.67428 8.1584 9.16667 9.99935 9.16667Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                  <div class="paragraph-small text-color-white">{w.projectClient}</div>
+                </div>
+              </div>
+            </div>
+            <div class="breadcrumb-content-block is-4">
+              <div class="breadcrumb-heading-block is-2 max-width-764">
+                <div class="breadcrumb-subtitle-block is-2">
+                  <div class="breadcrumb-subtitle">Our Work</div>
+                  <div class="breadcrumb-subtitle">{w.projectTag}</div>
+                </div>
+                <div class="breadcrumb-title-block">
+                  <h1 class="heading-style-2 text-color-white">{w.workDetailsTitle}</h1>
+                </div>
+              </div>
+              <div class="breadcrumb-summary-block max-width-460">
+                <p class="paragraph-small text-color-white">{w.workDetailsDescription}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="breadcrumb-bg-overlay"></div>
+    </section>
+    <section class="section_project-details">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="project-details-wrapper">
+            <div class="project-details-cta-block">
+              <div class="project-details-cta-text-block">
+                <h2 class="heading-style-2 text-color-white h3">Ready to Get <span class="heading-style-2-wht">Started?</span></h2>
+                <p class="paragraph-small text-color-white">Contact us today for a free consultation and quote for your roofing project.</p>
+              </div>
+              <div class="project-details-cta-button-block">
+                <a href="/contact" class="white-button is-2 w-inline-block">
+                  <div class="button-text-block varient-3">
+                    <div class="button-text is-1 varient-4">Get Free Inspection</div>
+                    <div class="button-text is-2 varient-5">Get Free Inspection</div>
+                  </div>
+                </a>
+                <a href="tel:+(555)0123456789" class="white-button is-3 w-inline-block">
+                  <div class="button-text-block varient-3">
+                    <div class="button-text is-1 varient-4">Call Now</div>
+                    <div class="button-text is-2 varient-5">Call Now</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="project-details-content-wrapper">
+              <div class="project-details-text-block">
+                <div class="project-details-text w-richtext" set:html={w.projectDetailsText}></div>
+              </div>
+              <div class="project-details-summary-block">
+                <div class="label-large">Summery</div>
+                <p class="paragraph-small text-weight-medium text-color-primary">{w.projectDetailsSummary}</p>
+              </div>
+              <div class="project-details-tag-block">
+                {tags.map((t) => (
+                  <div class="project-details-single-tag">{t}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_project-result">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="project-result-wrapper">
+            <div class="section-heading-block">
+              <div class="section-title-block max-width-220">
+                <h2 class="heading-style-2">Project <span class="heading-style-2-ht">Results</span></h2>
+              </div>
+            </div>
+            <div class="project-result-content-block">
+              {results.map(([label, value]) => (
+                <div class="project-result-single-block">
+                  <div class="project-result-title-block">
+                    <div class="paragraph-small">{label}</div>
+                  </div>
+                  <div class="project-result-number-block">
+                    <div class="project-result-number">{value}</div>
+                    <div class="project-result-icon w-embed"><svg width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_152_1789)"><path d="M22.6654 9.33398L9.33203 22.6673" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10.668 9.33398H22.668V21.334" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="clip0_152_1789"><rect width="32" height="32" fill="white"></rect></clippath></defs></svg></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_features">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="features-wrapper">
+            <div class="features-heading-block">
+              <div class="section-title-block max-width-300">
+                <h2 class="heading-style-2">Project <span class="heading-style-2-ht">Features</span></h2>
+              </div>
+            </div>
+            <div class="features-content-block">
+              {features.map((f) => (
+                <div class="features-point-block">
+                  <div class="features-point-title-block"><img src="/images/Features-Icon.svg" loading="lazy" alt="fratures-pointer-icon" class="fratures-pointer-icon" />
+                    <p class="text-color-black">{f}</p>
+                  </div>
+                  <div class="features-point-icon-block">
+                    <div class="features-arrow-icon w-embed"><svg width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_152_1478)"><path d="M22.6663 9.33398L9.33301 22.6673" stroke="#131B33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10.667 9.33398H22.667V21.334" stroke="#131B33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="clip0_152_1478"><rect width="32" height="32" fill="white"></rect></clippath></defs></svg></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_gallery">
+      <div class="section-gap">
+        <div class="w-layout-blockcontainer container-main w-container">
+          <div class="gallery-wrapper">
+            <div class="section-heading-block">
+              <div class="section-title-block">
+                <h2 class="heading-style-2 text-align-center">Project Gallery</h2>
+              </div>
+            </div>
+            <div class="gallery-content-block">
+              {galleryPairs.map(({ before, after, id }) => (
+                <div id={id} class="gallery-card-block">
+                  <div class="gallery-before-block"><img src={before} loading="lazy" alt="gallery-before-image" class="gallery-before-image" />
+                    <div class="gallery-image-content-block">
+                      <div class="gallery-image-tag">Before</div>
+                      <div class="gallery-image-icon w-embed" set:html={galleryArrow}></div>
+                    </div>
+                  </div>
+                  <div class="gallery-after-block"><img src={after} loading="lazy" alt="gallery-after-image" class="gallery-after-image" />
+                    <div class="gallery-image-content-block">
+                      <div class="gallery-image-tag">After</div>
+                      <div class="gallery-image-icon w-embed" set:html={galleryArrow}></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

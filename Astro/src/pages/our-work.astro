@@ -1,0 +1,16 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import OurWorkSection from "../components/OurWorkSection.astro";
+import { getWorks } from "../lib/strapi.js";
+
+const works = await getWorks();
+---
+<Layout title="Our Work || Roofing Services Website Template" wfPage="our-work">
+  <Header current="our-work" />
+  <main class="main-wrapper">
+    <OurWorkSection works={works} />
+  </main>
+  <Footer />
+</Layout>

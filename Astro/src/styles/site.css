@@ -1,0 +1,589 @@
+/*
+ * Astro-bundled stylesheet — loaded after /css/app.css (the Webflow export).
+ * Reuses the design tokens defined there (--_colors---*, --font-*, --_sizes---*)
+ * so new sections stay on-brand without touching the generated Webflow CSS.
+ */
+[data-astro-build] {
+  color: inherit;
+}
+
+/* ---------- Button text slide-up on hover (pure CSS fallback for
+   custom-added buttons that have no Webflow IX2 hover interaction bound) ---------- */
+
+.button-text.is-1,
+.button-text.is-2 {
+  transition: transform .35s ease;
+}
+
+.primary-button:hover .button-text.is-1,
+.secondary-button:hover .button-text.is-1 {
+  transform: translate(0, -102%);
+}
+
+.primary-button:hover .button-text.is-2,
+.secondary-button:hover .button-text.is-2 {
+  transform: translate(0, 0);
+}
+
+/* The "Most Popular" pricing card is the same navy as .primary-button's
+   hover state, so the button would vanish into the card on hover — invert
+   it instead of letting it blend in. */
+.pricing-card.is-popular .pricing-cta.primary-button:hover {
+  background-color: var(--_colors---white-color);
+  color: var(--_colors---primary-color);
+}
+
+/* ---------- Materials tab showcase (homepage) ---------- */
+
+.section_materials {
+  background-color: var(--_colors---white-color);
+}
+
+.materials-content-block {
+  display: flex;
+  align-items: stretch;
+  gap: var(--_sizes---spacer-sm);
+  margin-top: var(--_sizes---sapecer-main);
+}
+
+.materials-tab-list {
+  flex: none;
+  width: 100%;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.materials-tab {
+  text-align: left;
+  border: 1px solid var(--_colors---strock-color);
+  background-color: var(--_colors---porcelain-color);
+  color: var(--_colors---title-text-color);
+  font-family: inherit;
+  font-size: var(--font-sizes--paragraph-xsmall);
+  font-weight: var(--font-weight--medium);
+  padding: 16px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color .3s, color .3s, border-color .3s;
+}
+
+.materials-tab.is-active,
+.materials-tab:hover {
+  background-color: var(--_colors---primary-color);
+  border-color: var(--_colors---primary-color);
+  color: var(--_colors---white-color);
+}
+
+.materials-panel-block {
+  flex: 1;
+  position: relative;
+  background-color: var(--_colors---porcelain-color);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.materials-panel {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  min-height: 360px;
+}
+
+.materials-panel.is-active {
+  display: grid;
+}
+
+.materials-panel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.materials-panel-content {
+  padding: var(--_sizes---sapecer-main);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--_sizes---spacer-xsm);
+}
+
+.materials-spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--_sizes---spacer-xsm);
+  padding: 10px 0;
+  border-top: 1px solid var(--_colors---strock-color);
+  font-size: var(--font-sizes--paragraph-xsmall);
+}
+
+.materials-spec-row span:first-child {
+  color: var(--_colors---body-text-color);
+}
+
+.materials-spec-row span:last-child {
+  color: var(--_colors---title-text-color);
+  font-weight: var(--font-weight--semi-bold);
+  text-align: right;
+}
+
+@media screen and (max-width: 991px) {
+  .materials-content-block {
+    flex-direction: column;
+  }
+
+  .materials-tab-list {
+    max-width: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .materials-tab {
+    flex: 1 1 auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .materials-panel.is-active {
+    grid-template-columns: 1fr;
+  }
+
+  .materials-panel-image {
+    min-height: 220px;
+  }
+}
+
+/* ---------- Instant estimate calculator (homepage) ---------- */
+
+.section_estimator {
+  background-color: var(--_colors---title-text-color);
+}
+
+.estimator-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--_sizes---spacer-xxxl);
+}
+
+.estimator-info-block {
+  flex: none;
+  width: 100%;
+  max-width: 380px;
+}
+
+.estimator-note {
+  margin-top: var(--_sizes---spacer-xsm);
+  color: var(--_colors---white-0-80);
+}
+
+.estimator-points {
+  margin: var(--_sizes---sapecer-main) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.estimator-points li {
+  position: relative;
+  padding-left: 28px;
+  color: var(--_colors---white-color);
+  font-size: var(--font-sizes--paragraph-xsmall);
+}
+
+.estimator-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--_colors---primary-color);
+}
+
+.estimator-points li::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 7px;
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid var(--_colors---white-color);
+  border-bottom: 2px solid var(--_colors---white-color);
+  transform: rotate(-45deg);
+}
+
+.estimator-card-block {
+  flex: none;
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--_colors---white-color);
+  border-radius: 16px;
+  padding: var(--_sizes---sapecer-main);
+  display: flex;
+  flex-direction: column;
+  gap: var(--_sizes---spacer-xsm);
+  box-shadow: 0 5px 20px #0000001a;
+}
+
+.estimator-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.estimator-label {
+  font-size: var(--font-sizes--label-regular);
+  font-weight: var(--font-weight--semi-bold);
+  color: var(--_colors---title-text-color);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.estimator-select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--_colors---strock-color);
+  font-family: inherit;
+  font-size: var(--font-sizes--paragraph-xsmall);
+  color: var(--_colors---title-text-color);
+  background-color: var(--_colors---porcelain-color);
+}
+
+.estimator-range {
+  width: 100%;
+  accent-color: var(--_colors---primary-color);
+}
+
+.estimator-range-value {
+  font-size: var(--font-sizes--paragraph-xsmall);
+  color: var(--_colors---body-text-color);
+}
+
+.estimator-range-value span {
+  color: var(--_colors---title-text-color);
+  font-weight: var(--font-weight--semi-bold);
+}
+
+.estimator-button {
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 8px;
+  font-family: inherit;
+  font-size: var(--font-sizes--paragraph-xsmall);
+}
+
+.estimator-result {
+  background-color: #165cfd0d;
+  border: 1px solid #165cfd29;
+  border-radius: 12px;
+  padding: var(--_sizes---spacer-xsm);
+  text-align: center;
+}
+
+.estimator-result-label {
+  font-size: var(--font-sizes--paragraph-xxsmall);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--_colors---body-text-color);
+}
+
+.estimator-result-value {
+  font-size: var(--font-sizes--h4);
+  color: var(--_colors---title-text-color);
+  font-weight: var(--font-weight--semi-bold);
+  margin-top: 4px;
+}
+
+.estimator-result-hint {
+  font-size: var(--font-sizes--paragraph-xxsmall);
+  color: var(--_colors---body-text-color);
+  margin-top: 6px;
+}
+
+@media screen and (max-width: 991px) {
+  .estimator-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .estimator-info-block,
+  .estimator-card-block {
+    max-width: none;
+  }
+}
+
+/* ---------- Draggable before/after comparison (reuses the theme's native
+   .section_gallery / .gallery-card-block markup; the is-draggable modifier
+   turns the stock side-by-side layout into an overlay reveal slider) ---------- */
+
+.gallery-content-block.is-draggable .gallery-card-block {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  touch-action: pan-y;
+}
+
+.gallery-content-block.is-draggable .gallery-before-block,
+.gallery-content-block.is-draggable .gallery-after-block {
+  position: absolute;
+  inset: 0;
+}
+
+.gallery-content-block.is-draggable .gallery-before-image,
+.gallery-content-block.is-draggable .gallery-after-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-content-block.is-draggable .gallery-after-block {
+  clip-path: inset(0 50% 0 0);
+}
+
+.gallery-drag-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  border-left: 2px solid var(--_colors---white-color);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.gallery-drag-grip {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  background-color: var(--_colors---white-color);
+  color: var(--_colors---primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px #00000026;
+  transform: translate(-50%, -50%);
+}
+
+.gallery-drag-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  -webkit-appearance: none;
+  appearance: none;
+  z-index: 4;
+}
+
+.gallery-drag-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 44px;
+  height: 100%;
+}
+
+.gallery-drag-range::-moz-range-thumb {
+  width: 44px;
+  height: 100%;
+  border: none;
+  background: transparent;
+}
+
+@media screen and (max-width: 767px) {
+  .gallery-content-block.is-draggable .gallery-card-block {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ---------- Expertise accordion: one open at a time (homepage) ---------- */
+
+.expertise-card-summary-block,
+.expertise-card-image-block {
+  transition: height .4s ease;
+}
+
+.expertise-card-icon-block {
+  transition: opacity .3s ease;
+}
+
+/* ---------- Pricing plans (homepage) ---------- */
+
+.section_pricing {
+  background-color: var(--_colors---white-color);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+  gap: var(--_sizes---spacer-sm);
+  margin-top: var(--_sizes---spacer-xxxl);
+}
+
+.pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--_sizes---spacer-xsm);
+  background-color: var(--_colors---porcelain-color);
+  border: 1px solid var(--_colors---strock-color);
+  border-radius: 16px;
+  padding: var(--_sizes---sapecer-main);
+}
+
+.pricing-card.is-popular {
+  background-color: var(--_colors---title-text-color);
+  border-color: var(--_colors---title-text-color);
+  transform: scale(1.04);
+  box-shadow: 0 10px 30px #00000026;
+  z-index: 1;
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--_colors---primary-color);
+  color: var(--_colors---white-color);
+  font-size: var(--font-sizes--paragraph-xxsmall);
+  font-weight: var(--font-weight--semi-bold);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.pricing-name {
+  font-size: var(--font-sizes--label-large);
+  font-weight: var(--font-weight--semi-bold);
+  color: var(--_colors---title-text-color);
+}
+
+.pricing-card.is-popular .pricing-name {
+  color: var(--_colors---white-color);
+}
+
+.pricing-desc {
+  font-size: var(--font-sizes--paragraph-xsmall);
+  color: var(--_colors---body-text-color);
+}
+
+.pricing-card.is-popular .pricing-desc {
+  color: var(--_colors---white-0-80);
+}
+
+.pricing-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-top: 1px solid var(--_colors---strock-color);
+  border-bottom: 1px solid var(--_colors---strock-color);
+}
+
+.pricing-card.is-popular .pricing-price-row {
+  border-color: var(--_colors---white-0-16);
+}
+
+.pricing-price {
+  font-size: var(--font-sizes--h3);
+  font-weight: var(--font-weight--bold);
+  color: var(--_colors---title-text-color);
+}
+
+.pricing-card.is-popular .pricing-price {
+  color: var(--_colors---white-color);
+}
+
+.pricing-price-note {
+  font-size: var(--font-sizes--paragraph-xxsmall);
+  color: var(--_colors---body-text-color);
+}
+
+.pricing-card.is-popular .pricing-price-note {
+  color: var(--_colors---white-0-60);
+}
+
+.pricing-features {
+  list-style: none;
+  margin: 0;
+  margin-bottom: var(--_sizes---sapecer-main);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--font-sizes--paragraph-xsmall);
+  color: var(--_colors---body-text-color);
+}
+
+.pricing-card.is-popular .pricing-features li {
+  color: var(--_colors---white-0-80);
+}
+
+.pricing-check {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--_colors---primary-color);
+  position: relative;
+}
+
+.pricing-check::after {
+  content: "";
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid var(--_colors---white-color);
+  border-bottom: 2px solid var(--_colors---white-color);
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.pricing-card.is-popular .pricing-check {
+  background-color: var(--_colors---white-color);
+}
+
+.pricing-card.is-popular .pricing-check::after {
+  border-color: var(--_colors---primary-color);
+}
+
+.pricing-cta {
+  width: 100%;
+  text-align: center;
+  margin-top: auto;
+}
+
+@media screen and (max-width: 991px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pricing-card.is-popular {
+    transform: none;
+    order: -1;
+  }
+}
